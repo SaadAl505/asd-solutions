@@ -1,0 +1,182 @@
+{
+  "settings": {
+    "siteName": "ASD Solutions",
+    "tagline": "Tech & AI Solutions Studio",
+    "description": "We build a complete digital presence for your business: a website, practical AI solutions, a QR digital menu, and a consistent visual identity — at competitive prices.",
+    "whatsapp": "966552755411",
+    "phone": "966552755411",
+    "email": "info@rawae.sa",
+    "instagram": "",
+    "twitter": "",
+    "city": "Saudi Arabia",
+    "workHours": "24/7",
+    "announcement": {
+      "enabled": true,
+      "text": "Launch offer: 15% off the Full Identity package until the end of the month"
+    }
+  },
+  "stats": [
+    { "id": "st1", "label": "Projects delivered", "value": "25+" },
+    { "id": "st2", "label": "Avg. delivery hours", "value": "72" },
+    { "id": "st3", "label": "Client satisfaction", "value": "100%" }
+  ],
+  "services": [
+    {
+      "id": "sv1",
+      "icon": "globe",
+      "title": "Websites",
+      "description": "A fast, elegant website connected to your WhatsApp and Google Maps — ready within 72 hours."
+    },
+    {
+      "id": "sv5",
+      "icon": "bolt",
+      "title": "AI Solutions",
+      "description": "A smart assistant that answers your customers and automates repetitive tasks — advanced tech, made simple."
+    },
+    {
+      "id": "sv2",
+      "icon": "qr",
+      "title": "Digital Menu + QR",
+      "description": "A premium digital menu your customers open with one scan — update prices anytime."
+    },
+    {
+      "id": "sv3",
+      "icon": "sign",
+      "title": "Cybersecurity",
+      "description": "Cybersecurity solutions and penetration testing."
+    },
+    {
+      "id": "sv4",
+      "icon": "brochure",
+      "title": "Print & Brand Identity",
+      "description": "Brochures, business cards, and greetings in your brand's own colors and fonts."
+    }
+  ],
+  "offers": [
+    {
+      "id": "of1",
+      "icon": "gift",
+      "title": "Launch Offer",
+      "description": "15% off the Full Identity package for the first ten clients.",
+      "badge": "15% OFF",
+      "active": true
+    },
+    {
+      "id": "of2",
+      "icon": "sparkles",
+      "title": "Starter Bundle",
+      "description": "Website + digital menu at a special price for new businesses.",
+      "badge": "Special price",
+      "active": true
+    }
+  ],
+  "packages": [
+    {
+      "id": "pk1",
+      "title": "Business Website",
+      "price": "1000",
+      "unit": "SAR",
+      "features": ["Complete one-page website", "WhatsApp & Google Maps integration", "SEO setup"],
+      "featured": true,
+      "badgeText": "Offer"
+    },
+    {
+      "id": "pk2",
+      "title": "Digital Menu + QR",
+      "price": "300",
+      "unit": "SAR",
+      "features": ["Premium branded design", "Print-ready QR code", "Update prices anytime"],
+      "featured": false,
+      "badgeText": ""
+    },
+    {
+      "id": "pk4",
+      "title": "Full Identity",
+      "price": "2000",
+      "unit": "SAR",
+      "features": ["Website + QR menu + signage + brochure", "Fully consistent identity", "Save over 600 SAR"],
+      "featured": true,
+      "badgeText": "Best value"
+    }
+  ],
+  "portfolio": [
+    {
+      "id": "pf1",
+      "title": "Elite Clinic",
+      "category": "Business website",
+      "url": "https://easytrain.net/Tools/Calculator",
+      "image": ""
+    },
+    {
+      "id": "pf2",
+      "title": "Al-Thawaqa Restaurant",
+      "category": "Full identity",
+      "url": "",
+      "image": ""
+    }
+  ],
+  "clients": [],
+  "testimonials": [
+    {
+      "id": "ts1",
+      "name": "Sample Client",
+      "role": "Business owner",
+      "text": "A great experience and fast delivery — I got a website and a full identity within days.",
+      "rating": 5
+    }
+  ],
+  "faq": [
+    {
+      "id": "fq1",
+      "q": "What exactly does the price include?",
+      "a": "Full design and build with two revision rounds. For websites: WhatsApp and map integration plus SEO setup. For print: high-resolution print-ready files."
+    },
+    {
+      "id": "fq2",
+      "q": "Who owns the domain?",
+      "a": "You do — the domain is registered in your name, and we help you set it up step by step."
+    },
+    {
+      "id": "fq3",
+      "q": "Do you handle the physical printing?",
+      "a": "We deliver professional print-ready files you can take to any print shop, and we recommend trusted ones — you pay the printer directly with no middleman."
+    },
+    {
+      "id": "fq4",
+      "q": "Is the website really delivered within 72 hours?",
+      "a": "Yes — the clock starts once we receive the down payment and content. That is our public promise."
+    }
+  ],
+  "ui": {
+    "nav": { "services": "Services", "pricing": "Pricing", "clients": "Clients", "faq": "FAQ", "cta": "Start your project" },
+    "hero": {
+      "titleLine": "We build your",
+      "titleGrad": "digital future",
+      "ctaPrimary": "Get a free consultation",
+      "ctaSecondary": "Explore our services"
+    },
+    "sections": {
+      "services": { "eyebrow": "Our Services", "title": "Complete tech solutions from one team", "subtitle": "From first idea to launch — high quality at competitive prices." },
+      "clients": { "eyebrow": "Success Partners", "title": "Businesses that trusted us" },
+      "offers": { "eyebrow": "Current Offers", "title": "Offers you shouldn't miss" },
+      "steps": { "eyebrow": "How It Works", "title": "Three steps and your project is live" },
+      "pricing": { "eyebrow": "Packages & Pricing", "title": "Fixed, published prices. No hidden fees." },
+      "portfolio": { "eyebrow": "Our Work", "title": "Work we're proud of" },
+      "testimonials": { "eyebrow": "Testimonials", "title": "Trust we cherish" },
+      "faq": { "eyebrow": "FAQ", "title": "Everything you need to know" }
+    },
+    "steps": [
+      { "title": "Contact us", "desc": "One WhatsApp message is enough — we agree on services and content the same day." },
+      { "title": "Pay the deposit", "desc": "50% upfront via bank transfer or STC Pay, the rest on delivery." },
+      { "title": "Receive on time", "desc": "The website in record time, and print designs as press-ready files — no delays." }
+    ],
+    "buttons": { "offer": "I want this offer", "package": "Order package" },
+    "cta": {
+      "title": "Ready to take your business to",
+      "titleGrad": "the next level?",
+      "desc": "Send us your business name now and get a free consultation with a clear plan within one day.",
+      "btnWhatsapp": "Chat on WhatsApp"
+    },
+    "footer": { "tagline": "Tech solutions worthy of Saudi businesses", "rights": "All rights reserved" }
+  }
+}
