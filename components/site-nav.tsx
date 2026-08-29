@@ -11,13 +11,13 @@ export default function SiteNav({
   waHref,
   langHref,
   langLabel,
-}: {
+}: Readonly<{
   siteName: string;
   labels: NavLabels;
   waHref: string;
   langHref?: string;
   langLabel?: string;
-}) {
+}>) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 

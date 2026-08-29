@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
-import { createHash } from "crypto";
+import { promises as fs } from "node:fs";
+import path from "node:path";
+import { createHash } from "node:crypto";
 import { isAuthenticated } from "@/lib/auth";
 
 const ALLOWED: Record<string, string> = {

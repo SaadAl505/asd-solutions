@@ -24,9 +24,15 @@ async function buildSystemPrompt(): Promise<string> {
     .join("\n");
   const offers = c.offers
     .filter((o) => o.active)
-    .map((o) => `- ${o.title}${o.badge ? ` (${o.badge})` : ""}: ${o.description}`)
+    .map((o) => {
+      const badge = o.badge ? ` (${o.badge})` : "";
+      return `- ${o.title}${badge}: ${o.description}`;
+    })
     .join("\n");
   const faq = c.faq.map((f) => `س: ${f.q}\nج: ${f.a}`).join("\n\n");
+
+  const emailLine = s.email ? `- البريد الإلكتروني: ${s.email}` : "";
+  const offersBlock = offers ? `## العروض الحالية\n${offers}\n` : "";
 
   return `أنت المساعد الذكي الرسمي لشركة "${s.siteName}" — ${s.tagline}.
 
@@ -36,7 +42,7 @@ async function buildSystemPrompt(): Promise<string> {
 - الوصف: ${s.description}
 - النطاق الجغرافي: ${s.city}
 - رقم الواتساب للتواصل والطلب: +${s.whatsapp}
-${s.email ? `- البريد الإلكتروني: ${s.email}` : ""}
+${emailLine}
 
 ## الخدمات
 ${services}
@@ -44,7 +50,7 @@ ${services}
 ## الباقات والأسعار
 ${packages}
 
-${offers ? `## العروض الحالية\n${offers}\n` : ""}
+${offersBlock}
 ## آلية العمل
 1. يتواصل العميل عبر واتساب ويُتفق على الخدمات والمحتوى في اليوم نفسه.
 2. يدفع العميل 50% مقدمًا عبر تحويل بنكي أو STC Pay، والمبلغ المتبقي عند الاستلام.
@@ -86,7 +92,7 @@ export async function POST(request: NextRequest) {
       content: m.content.slice(0, MAX_MESSAGE_LENGTH),
     }));
 
-  if (history.length === 0 || history[history.length - 1].role !== "user") {
+  if (history.length === 0 || history.at(-1)?.role !== "user") {
     return NextResponse.json({ ok: false, error: "رسالة غير صالحة" }, { status: 400 });
   }
 

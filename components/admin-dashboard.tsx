@@ -24,12 +24,12 @@ const TABS = [
 type TabKey = (typeof TABS)[number]["key"];
 
 function newId(prefix: string) {
-  return `${prefix}${Math.random().toString(36).slice(2, 8)}`;
+  return `${prefix}${crypto.randomUUID().slice(0, 8)}`;
 }
 
 /* ---------- عناصر مساعدة ---------- */
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, children }: Readonly<{ label: string; children: React.ReactNode }>) {
   return (
     <div className="field">
       <label>{label}</label>
@@ -38,7 +38,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
-function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void }) {
+function Toggle({ on, onChange }: Readonly<{ on: boolean; onChange: (v: boolean) => void }>) {
   return (
     <button
       type="button"
@@ -51,7 +51,7 @@ function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void 
   );
 }
 
-function IconPicker({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+function IconPicker({ value, onChange }: Readonly<{ value: string; onChange: (v: string) => void }>) {
   return (
     <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
       {ICON_NAMES.map((name) => (
@@ -83,11 +83,11 @@ function UploadInput({
   value,
   onChange,
   label,
-}: {
+}: Readonly<{
   value: string;
   onChange: (url: string) => void;
   label: string;
-}) {
+}>) {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
 
@@ -112,7 +112,10 @@ function UploadInput({
           <img src={value} alt="" style={{ height: 40, maxWidth: 110, objectFit: "contain", background: "var(--surface-2)", borderRadius: 10, padding: 4, border: "1px solid var(--border)" }} />
         )}
         <label className="btn btn-glass btn-sm" style={{ cursor: "pointer" }}>
-          {busy ? "جارٍ الرفع..." : value ? "استبدال الصورة" : "رفع صورة"}
+          {(() => {
+            if (busy) return "جارٍ الرفع...";
+            return value ? "استبدال الصورة" : "رفع صورة";
+          })()}
           <input
             type="file"
             accept="image/png,image/jpeg,image/webp,image/svg+xml"
@@ -135,7 +138,7 @@ function UploadInput({
   );
 }
 
-function ItemCard({ children, onDelete }: { children: React.ReactNode; onDelete: () => void }) {
+function ItemCard({ children, onDelete }: Readonly<{ children: React.ReactNode; onDelete: () => void }>) {
   return (
     <div className="admin-card" style={{ display: "flex", flexDirection: "column", gap: 14, position: "relative" }}>
       <button
@@ -156,7 +159,7 @@ function ItemCard({ children, onDelete }: { children: React.ReactNode; onDelete:
   );
 }
 
-function AddButton({ label, onClick }: { label: string; onClick: () => void }) {
+function AddButton({ label, onClick }: Readonly<{ label: string; onClick: () => void }>) {
   return (
     <button type="button" className="btn btn-glass btn-sm" onClick={onClick} style={{ alignSelf: "flex-start" }}>
       + {label}
@@ -166,7 +169,7 @@ function AddButton({ label, onClick }: { label: string; onClick: () => void }) {
 
 /* ---------- اللوحة الرئيسية ---------- */
 
-export default function Dashboard({ initial }: { initial: SiteContent }) {
+export default function Dashboard({ initial }: Readonly<{ initial: SiteContent }>) {
   const router = useRouter();
   const [content, setContent] = useState<SiteContent>(initial);
   const [tab, setTab] = useState<TabKey>("settings");
@@ -242,7 +245,7 @@ export default function Dashboard({ initial }: { initial: SiteContent }) {
             ))}
           </div>
           <a className="btn btn-glass btn-sm" href={lang === "en" ? "/en" : "/"} target="_blank">معاينة الموقع</a>
-          <button className="btn btn-glass btn-sm" onClick={logout} style={{ color: "var(--danger)" }}>تسجيل الخروج</button>
+          <button type="button" className="btn btn-glass btn-sm" onClick={logout} style={{ color: "var(--danger)" }}>تسجيل الخروج</button>
         </div>
       </header>
 
@@ -696,7 +699,7 @@ export default function Dashboard({ initial }: { initial: SiteContent }) {
 
       {/* شريط الحفظ الثابت */}
       <div style={{ position: "fixed", bottom: 0, insetInlineStart: 0, insetInlineEnd: 0, display: "flex", justifyContent: "center", padding: 14, background: "linear-gradient(0deg, var(--ground) 60%, transparent)", zIndex: 40 }}>
-        <button className="btn btn-grad" onClick={save} disabled={saving} style={{ minWidth: 220 }}>
+        <button type="button" className="btn btn-grad" onClick={save} disabled={saving} style={{ minWidth: 220 }}>
           {saving ? "جارٍ الحفظ..." : "حفظ جميع التغييرات"}
         </button>
       </div>

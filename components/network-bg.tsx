@@ -2,8 +2,15 @@
 
 import { useEffect, useRef } from "react";
 
+/** عشوائية آمنة للتأثيرات البصرية */
+function rand(): number {
+  const buf = new Uint32Array(1);
+  crypto.getRandomValues(buf);
+  return buf[0] / 2 ** 32;
+}
+
 /** خلفية شبكة نقاط متصلة متحركة (بأسلوب مواقع التقنية) */
-export default function NetworkBackground({ opacity = 0.55 }: { opacity?: number }) {
+export default function NetworkBackground({ opacity = 0.55 }: Readonly<{ opacity?: number }>) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -30,26 +37,25 @@ export default function NetworkBackground({ opacity = 0.55 }: { opacity?: number
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const n = Math.min(90, Math.floor((w * h) / 16000));
       pts = Array.from({ length: n }, () => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: (Math.random() - 0.5) * 0.35,
+        x: rand() * w,
+        y: rand() * h,
+        vx: (rand() - 0.5) * 0.35,
+        vy: (rand() - 0.5) * 0.35,
       }));
     }
 
     const LINK = 130;
 
-    function draw(move: boolean) {
-      if (!ctx) return;
-      ctx.clearRect(0, 0, w, h);
-      if (move) {
-        for (const p of pts) {
-          p.x += p.vx;
-          p.y += p.vy;
-          if (p.x < 0 || p.x > w) p.vx *= -1;
-          if (p.y < 0 || p.y > h) p.vy *= -1;
-        }
+    function moveParticles() {
+      for (const p of pts) {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > w) p.vx *= -1;
+        if (p.y < 0 || p.y > h) p.vy *= -1;
       }
+    }
+
+    function drawLinks(c2d: CanvasRenderingContext2D) {
       for (let i = 0; i < pts.length; i++) {
         for (let j = i + 1; j < pts.length; j++) {
           const dx = pts[i].x - pts[j].x;
@@ -57,20 +63,31 @@ export default function NetworkBackground({ opacity = 0.55 }: { opacity?: number
           const d2 = dx * dx + dy * dy;
           if (d2 < LINK * LINK) {
             const a = (1 - Math.sqrt(d2) / LINK) * 0.13;
-            ctx.strokeStyle = `rgba(56, 189, 248, ${a})`;
-            ctx.beginPath();
-            ctx.moveTo(pts[i].x, pts[i].y);
-            ctx.lineTo(pts[j].x, pts[j].y);
-            ctx.stroke();
+            c2d.strokeStyle = `rgba(56, 189, 248, ${a})`;
+            c2d.beginPath();
+            c2d.moveTo(pts[i].x, pts[i].y);
+            c2d.lineTo(pts[j].x, pts[j].y);
+            c2d.stroke();
           }
         }
       }
-      ctx.fillStyle = "rgba(125, 211, 252, 0.55)";
+    }
+
+    function drawDots(c2d: CanvasRenderingContext2D) {
+      c2d.fillStyle = "rgba(125, 211, 252, 0.55)";
       for (const p of pts) {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 1.4, 0, Math.PI * 2);
-        ctx.fill();
+        c2d.beginPath();
+        c2d.arc(p.x, p.y, 1.4, 0, Math.PI * 2);
+        c2d.fill();
       }
+    }
+
+    function draw(move: boolean) {
+      if (!ctx) return;
+      ctx.clearRect(0, 0, w, h);
+      if (move) moveParticles();
+      drawLinks(ctx);
+      drawDots(ctx);
     }
 
     function loop() {
@@ -96,6 +113,7 @@ export default function NetworkBackground({ opacity = 0.55 }: { opacity?: number
     <canvas
       ref={ref}
       aria-hidden
+      tabIndex={-1}
       style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity, pointerEvents: "none" }}
     />
   );

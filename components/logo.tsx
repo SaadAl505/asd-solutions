@@ -1,6 +1,6 @@
 /** شعار الموقع — قمة صاعدة داخل درع متدرج */
 
-export function LogoMark({ size = 42 }: { size?: number }) {
+export function LogoMark({ size = 42 }: Readonly<{ size?: number }>) {
   return (
     <span
       style={{
@@ -42,7 +42,7 @@ export function LogoMark({ size = 42 }: { size?: number }) {
   );
 }
 
-export function LogoFull({ name, size = 42 }: { name: string; size?: number }) {
+export function LogoFull({ name, size = 42 }: Readonly<{ name: string; size?: number }>) {
   const [first, ...rest] = name.split(" ");
   return (
     <span style={{ display: "inline-flex", alignItems: "center", gap: 12 }}>

@@ -15,8 +15,8 @@ function base(size: number) {
   };
 }
 
-/** الجوهرة — علامة روائع الحلول */
-export function Gem({ size = 24 }: IconProps) {
+/** الجوهرة — العلامة القديمة (تُستخدم في مكتبة الأيقونات) */
+export function Gem({ size = 24 }: Readonly<{ size?: number }>) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden>
       <defs>
@@ -177,11 +177,11 @@ export function Icon({
   name,
   size = 26,
   strokeWidth = 1.8,
-}: {
+}: Readonly<{
   name: string;
   size?: number;
   strokeWidth?: number;
-}) {
+}>) {
   const Cmp = ICONS[name] ?? ICONS.sparkles;
   return <Cmp size={size} strokeWidth={strokeWidth} />;
 }

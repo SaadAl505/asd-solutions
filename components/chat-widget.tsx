@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { LogoMark } from "@/components/logo";
 
-type Msg = { role: "user" | "assistant"; content: string };
+type Msg = { id: string; role: "user" | "assistant"; content: string };
 
 const SUGGESTIONS = [
   "ما هي خدماتكم؟",
@@ -11,7 +11,7 @@ const SUGGESTIONS = [
   "كيف أطلب موقعًا لنشاطي؟",
 ];
 
-export default function ChatWidget({ siteName }: { siteName: string }) {
+export default function ChatWidget({ siteName }: Readonly<{ siteName: string }>) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
@@ -25,7 +25,7 @@ export default function ChatWidget({ siteName }: { siteName: string }) {
   async function send(text: string) {
     const question = text.trim();
     if (!question || loading) return;
-    const next: Msg[] = [...messages, { role: "user", content: question }];
+    const next: Msg[] = [...messages, { id: crypto.randomUUID(), role: "user", content: question }];
     setMessages(next);
     setInput("");
     setLoading(true);
@@ -33,17 +33,17 @@ export default function ChatWidget({ siteName }: { siteName: string }) {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: next }),
+        body: JSON.stringify({ messages: next.map(({ role, content }) => ({ role, content })) }),
       });
       const data = await res.json();
       setMessages([
         ...next,
-        { role: "assistant", content: data.reply || "حدث خطأ، يرجى المحاولة مرة أخرى." },
+        { id: crypto.randomUUID(), role: "assistant", content: data.reply || "حدث خطأ، يرجى المحاولة مرة أخرى." },
       ]);
     } catch {
       setMessages([
         ...next,
-        { role: "assistant", content: "تعذّر الاتصال، يرجى المحاولة مرة أخرى." },
+        { id: crypto.randomUUID(), role: "assistant", content: "تعذّر الاتصال، يرجى المحاولة مرة أخرى." },
       ]);
     } finally {
       setLoading(false);
@@ -74,7 +74,7 @@ export default function ChatWidget({ siteName }: { siteName: string }) {
 
       {/* نافذة المحادثة */}
       {open && (
-        <div className="chat-panel" role="dialog" aria-label="المساعد الذكي">
+        <section className="chat-panel" aria-label="المساعد الذكي">
           <div className="chat-head">
             <LogoMark size={34} />
             <div style={{ flex: 1 }}>
@@ -103,8 +103,8 @@ export default function ChatWidget({ siteName }: { siteName: string }) {
               </div>
             )}
 
-            {messages.map((m, i) => (
-              <div key={i} className={`chat-bubble ${m.role === "user" ? "user" : "bot"}`}>
+            {messages.map((m) => (
+              <div key={m.id} className={`chat-bubble ${m.role === "user" ? "user" : "bot"}`}>
                 {m.content}
               </div>
             ))}
@@ -136,7 +136,7 @@ export default function ChatWidget({ siteName }: { siteName: string }) {
               </svg>
             </button>
           </form>
-        </div>
+        </section>
       )}
 
       <style>{`

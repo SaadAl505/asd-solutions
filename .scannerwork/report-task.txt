@@ -1,0 +1,6 @@
+projectKey=asd-solutions
+serverUrl=http://localhost:9000
+serverVersion=26.8.0.126808
+dashboardUrl=http://localhost:9000/dashboard?id=asd-solutions
+ceTaskId=02330320-66a4-4c0b-9e08-5ba170534a7c
+ceTaskUrl=http://localhost:9000/api/ce/task?id=02330320-66a4-4c0b-9e08-5ba170534a7c

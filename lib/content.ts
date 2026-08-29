@@ -1,5 +1,5 @@
-import { promises as fs } from "fs";
-import path from "path";
+import { promises as fs } from "node:fs";
+import path from "node:path";
 
 export type Settings = {
   siteName: string;
@@ -38,12 +38,11 @@ export type Package = {
 };
 
 /** يحسب السعر بعد الخصم — يعيد null إن لم يكن هناك خصم صالح */
-export function discountedPrice(price: string, discount?: number): string | null {
-  const d = discount ?? 0;
-  if (!d || d <= 0 || d >= 100) return null;
-  const n = parseFloat(price.replace(/[^\d.]/g, ""));
-  if (isNaN(n) || n <= 0) return null;
-  return Math.round(n * (1 - d / 100)).toLocaleString("en-US");
+export function discountedPrice(price: string, discount = 0): string | null {
+  if (discount <= 0 || discount >= 100) return null;
+  const n = Number.parseFloat(price.replace(/[^\d.]/g, ""));
+  if (Number.isNaN(n) || n <= 0) return null;
+  return Math.round(n * (1 - discount / 100)).toLocaleString("en-US");
 }
 export type PortfolioItem = { id: string; title: string; category: string; url: string; image: string };
 export type Client = { id: string; name: string; logo: string };
@@ -135,7 +134,7 @@ function mergeUi(stored?: Partial<UiTexts>): UiTexts {
     sections: Object.fromEntries(
       Object.entries(DEFAULT_UI.sections).map(([k, v]) => [
         k,
-        { ...v, ...(stored.sections?.[k as keyof UiTexts["sections"]] ?? {}) },
+        { ...v, ...stored.sections?.[k as keyof UiTexts["sections"]] },
       ])
     ) as UiTexts["sections"],
     steps:

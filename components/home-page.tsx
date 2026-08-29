@@ -51,7 +51,7 @@ const L = {
   },
 };
 
-export default async function HomePage({ lang = "ar" }: { lang?: Lang }) {
+export default async function HomePage({ lang = "ar" }: Readonly<{ lang?: Lang }>) {
   const c = await getContent(lang);
   const t = L[lang];
   const wa = waLink(c.settings.whatsapp, t.wa);
@@ -125,15 +125,17 @@ export default async function HomePage({ lang = "ar" }: { lang?: Lang }) {
       {/* شريط الهوية المتحرك */}
       <div className="ribbon" aria-hidden>
         <div className="ribbon-track">
-          {[...ribbonItems, ...ribbonItems, ...ribbonItems].map((t, i) => (
-            <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 46 }}>
-              {t}
+          {[0, 1, 2].flatMap((copy) =>
+            ribbonItems.map((item) => (
+            <span key={`${copy}-${item}`} style={{ display: "inline-flex", alignItems: "center", gap: 46 }}>
+              {item}
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                 <path d="M4 19 12 5l8 14" />
                 <circle cx="12" cy="16" r="2.2" fill="#fff" stroke="none" />
               </svg>
             </span>
-          ))}
+            ))
+          )}
         </div>
       </div>
 
@@ -254,7 +256,7 @@ export default async function HomePage({ lang = "ar" }: { lang?: Lang }) {
           </div>
           <div className="grid-3" style={{ marginTop: 30 }}>
             {c.ui.steps.map((s, i) => (
-              <div key={i} className={`card reveal d${(i % 3) + 1} step-card`}>
+              <div key={`${s.title}::${s.desc}`} className={`card reveal d${(i % 3) + 1} step-card`}>
                 <span className="num step-badge tile-anim" style={{ backgroundImage: TILE_GRADS[i % TILE_GRADS.length] }}>
                   {i + 1}
                 </span>
@@ -313,8 +315,8 @@ export default async function HomePage({ lang = "ar" }: { lang?: Lang }) {
                   })()}
                 </div>
                 <ul style={{ listStyle: "none", padding: "20px 26px", margin: 0, display: "flex", flexDirection: "column", gap: 12, flex: 1 }}>
-                  {p.features.map((f, j) => (
-                    <li key={j} style={{ display: "flex", alignItems: "center", gap: 11, fontSize: 14, color: "var(--ink-2)" }}>
+                  {p.features.map((f) => (
+                    <li key={`${p.id}-${f}`} style={{ display: "flex", alignItems: "center", gap: 11, fontSize: 14, color: "var(--ink-2)" }}>
                       <span className="feat-check">✓</span>
                       {f}
                     </li>

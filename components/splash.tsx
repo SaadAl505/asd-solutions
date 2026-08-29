@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 /** شاشة الافتتاح — الشعار يُرسم ثم تتلاشى (بأسلوب SCAI) */
-export default function Splash({ siteName }: { siteName: string }) {
+export default function Splash({ siteName }: Readonly<{ siteName: string }>) {
   const [phase, setPhase] = useState<"show" | "fade" | "gone">("show");
 
   useEffect(() => {

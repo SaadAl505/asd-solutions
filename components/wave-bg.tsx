@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 /** موجات جسيمات متدفقة سينمائية — بأسلوب HUMAIN/SCAI */
-export default function WaveBg({ opacity = 1 }: { opacity?: number }) {
+export default function WaveBg({ opacity = 1 }: Readonly<{ opacity?: number }>) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -81,7 +81,7 @@ export default function WaveBg({ opacity = 1 }: { opacity?: number }) {
           if (x === -30) ctx.moveTo(x, y);
           else ctx.lineTo(x, y);
         }
-        ctx.strokeStyle = `rgba(${cr | 0}, ${cg | 0}, ${cb | 0}, ${lineAlpha})`;
+        ctx.strokeStyle = `rgba(${Math.trunc(cr)}, ${Math.trunc(cg)}, ${Math.trunc(cb)}, ${lineAlpha})`;
         ctx.lineWidth = 0.8 + depth * 1.1;
         ctx.stroke();
 
@@ -89,7 +89,7 @@ export default function WaveBg({ opacity = 1 }: { opacity?: number }) {
         for (let x = ((r * 37) % 60) - 30; x <= w + 30; x += STEP * 5) {
           const y = baseY + waveY(x, r, amp);
           const dotAlpha = (0.25 + depth * 0.55) * (0.5 + 0.5 * Math.sin(x * 0.02 + t * 1.4 + r));
-          ctx.fillStyle = `rgba(${Math.min(255, cr + 60) | 0}, ${Math.min(255, cg + 50) | 0}, ${Math.min(255, cb + 40) | 0}, ${dotAlpha})`;
+          ctx.fillStyle = `rgba(${Math.trunc(Math.min(255, cr + 60))}, ${Math.trunc(Math.min(255, cg + 50))}, ${Math.trunc(Math.min(255, cb + 40))}, ${dotAlpha})`;
           const size = 1.2 + depth * 1.8;
           ctx.fillRect(x, y - size / 2, size, size);
         }
@@ -121,6 +121,7 @@ export default function WaveBg({ opacity = 1 }: { opacity?: number }) {
     <canvas
       ref={ref}
       aria-hidden
+      tabIndex={-1}
       style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity, pointerEvents: "none" }}
     />
   );
