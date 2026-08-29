@@ -42,3 +42,6 @@ next-env.d.ts
 
 # runtime data (persisted on host disk)
 /data
+
+# sonar scanner work dir
+/.scannerwork
