@@ -45,3 +45,6 @@ next-env.d.ts
 
 # sonar scanner work dir
 /.scannerwork
+
+# test coverage output
+/coverage
