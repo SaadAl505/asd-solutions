@@ -32,16 +32,17 @@ export async function POST(request: NextRequest) {
   }
   if (file.size > MAX_SIZE) {
     return NextResponse.json(
-      { ok: false, error: "الحد الأقصى لحجم الملف ٢ ميجابايت" },
+      { ok: false, error: "الحد الأقصى لحجم الملف 2 ميجابايت" },
       { status: 400 }
     );
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
   const name = createHash("sha1").update(buffer).digest("hex").slice(0, 16) + ext;
-  const dir = path.join(process.cwd(), "public", "uploads");
+  // يُحفظ داخل مجلد البيانات ليبقى على القرص الدائم في الاستضافة
+  const dir = path.join(process.cwd(), "data", "uploads");
   await fs.mkdir(dir, { recursive: true });
   await fs.writeFile(path.join(dir, name), buffer);
 
-  return NextResponse.json({ ok: true, url: `/uploads/${name}` });
+  return NextResponse.json({ ok: true, url: `/api/files/${name}` });
 }

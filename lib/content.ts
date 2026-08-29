@@ -146,8 +146,20 @@ function mergeUi(stored?: Partial<UiTexts>): UiTexts {
   };
 }
 
+function seedPathFor(lang: Lang): string {
+  return path.join(process.cwd(), "seed", lang === "en" ? "content.en.json" : "content.json");
+}
+
 export async function getContent(lang: Lang = "ar"): Promise<SiteContent> {
-  const raw = await fs.readFile(contentPathFor(lang), "utf-8");
+  let raw: string;
+  try {
+    raw = await fs.readFile(contentPathFor(lang), "utf-8");
+  } catch {
+    // أول تشغيل على قرص فارغ: انسخ البذرة إلى مجلد البيانات
+    raw = await fs.readFile(seedPathFor(lang), "utf-8");
+    await fs.mkdir(path.dirname(contentPathFor(lang)), { recursive: true });
+    await fs.writeFile(contentPathFor(lang), raw, "utf-8");
+  }
   const parsed = JSON.parse(raw) as SiteContent;
   parsed.ui = mergeUi(parsed.ui);
   return parsed;
